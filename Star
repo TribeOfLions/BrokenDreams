@@ -1,0 +1,59 @@
+class Star {
+  
+  float x, y;
+  float xmove, ymove;
+  float radius;
+  color linecol, fillcol;
+  float alph;
+  String msg;
+  
+  Status status;
+  
+  Star(String message) {
+    
+    msg = message;
+    x = random(width);
+    y = random(height);
+    radius = random(20, 60) + 10;
+    linecol = color(random(255), random(255), random(255));
+    fillcol = color(255, random(175, 255), random(175, 255));
+    alph = random(200);
+    xmove = sin(random(2) / 2);
+    ymove = sin(random(2) / 2);
+    
+  }
+  
+  void appear() {
+    
+    noStroke();
+    fill(fillcol, alph);
+    ellipse(x, y, radius, radius);
+    
+  }
+  
+  void randomOrbit() {
+    
+    x += xmove;
+    y += ymove;
+    if (x > (width + radius)) { x = 0 - radius; }
+    if (x < (0 - radius)) { x = width + radius; }
+    if (y > (height + radius)) { y = 0 - radius; }
+    if (y < (0 - radius)) { y = height + radius; }
+    appear();
+    displayTweet();
+    
+  }
+  
+  void displayTweet() {
+    
+    if (mouseX > x-radius && mouseX < x+radius && mouseY > y-radius && mouseY < y+radius && mousePressed) {
+      x = mouseX;
+      y = mouseY;
+      alph += 1;
+      fill(255);
+      text(msg, mouseX + 30, mouseY, 200, 200);
+    }
+  
+  }
+  
+}
