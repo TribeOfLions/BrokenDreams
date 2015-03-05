@@ -1,0 +1,66 @@
+class StarDust {
+  
+  float x, y;
+  float xmove, ymove;
+  float radius;
+  float alpha, beta;
+  float flip;
+  
+  Status status;
+  
+  StarDust() {
+    x = random(width);
+    y = random(height);
+    radius = random(2, 4);
+    alpha = random(255);
+    beta = random(155);
+    xmove = random(1.9) - 0.9;
+    ymove = random(1.9) - 0.9;
+    
+  }
+  
+  void flipColor() {
+    
+    flip = random(3);
+    if (flip == 1) {
+      fill(255, random(127), random(155), beta);
+      stroke(255, random(127), random(155), beta);
+    } else {
+      fill(random(200, 255), random(25), 200, beta);
+      stroke(random(200, 255), random(25), 200, beta);
+    } //else {
+//      fill(random(255), random(127), 25, beta);
+//      stroke(random(255), random(127), 25, beta);
+//    }
+  
+  }
+  
+  void swish() {
+    
+    flipColor();
+    rect(x, y, radius, radius);
+    
+  }
+  
+  void move() {
+    
+    swish();
+    x += xmove;
+    y += ymove;
+    if (x > (width + radius)) { x = 0 - radius; }
+    if (x < (0 - radius)) { x = width + radius; }
+    if (y > (height + radius)) { y = 0 - radius; }
+    if (y < (0 - radius)) { y = height + radius; }
+    squarespray(xmove);
+    
+  }
+  
+  void squarespray(float spray) {
+    stroke(random(175, 255), random(255), 0, alpha);
+    strokeWeight(random(7));
+    point(x + random(radius), y + random(spray));
+    point(y + sin(spray) * radius, x - spray);
+    point(random(spray) - 60 + y, random(radius) + x - 30);
+  }
+  
+}
