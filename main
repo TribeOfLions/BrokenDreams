@@ -1,0 +1,98 @@
+import twitter4j.conf.*;
+import twitter4j.*;
+import twitter4j.auth.*;
+import twitter4j.api.*;
+import java.util.*;
+
+Twitter twitter;
+String searchString = "#brokendreams";
+List<Status> tweets;
+int currentTweet;
+PFont f;
+
+int amount1 = 300;
+Star[] meteors = new Star[24]; // define array of meteors
+StarDust[] sprinkle = {};
+String chatter;
+
+void setup() {
+  size(800,600);
+  f = createFont("Tahoma", 13, true);
+  textFont(f, 13);
+  
+  ConfigurationBuilder cb = new ConfigurationBuilder();
+  cb.setOAuthConsumerKey("QguSeHSHiKfemwqA9WoRhsH2x");
+  cb.setOAuthConsumerSecret("E5dKI7vRvGT0CKrnaq9ID7n8T2VZb2nzcvJnzas0QuIEPZLNDy");
+  cb.setOAuthAccessToken("356138802-I3dZRjkGiS1Uz14Smi8cXetv6OhTWeN6kFrCfTGX");
+  cb.setOAuthAccessTokenSecret("TX7vvcBbwpjPJeGIaf7otxExCNyzukS6MphytdTAho85n");
+  
+  TwitterFactory tf = new TwitterFactory(cb.build());
+  
+  twitter = tf.getInstance();
+  
+  getNewTweets();
+  
+  currentTweet = 0;
+  
+  dustField();
+  
+  Status status = tweets.get(currentTweet);
+  
+  for (int j = 0; j < meteors.length; j++) {
+    meteors[j] = new Star(chatterText());
+  }
+
+} // END setup function
+
+void draw() {
+  background(0);
+  for (int i = 0; i < sprinkle.length; i++) {
+    StarDust dust = sprinkle[i];
+    dust.move();
+  }
+  
+  for (int j = 0; j < meteors.length; j++) {
+    meteors[j].appear();
+    meteors[j].randomOrbit();
+  }
+
+  chatterText();
+  
+} // END draw function
+  
+void dustField() {
+  for (int i = 0; i < amount1; i++) {
+    StarDust dust = new StarDust(); // instance of StarDust
+    dust.swish();
+    sprinkle = (StarDust[])append(sprinkle, dust); // add new instance to array
+  }
+}
+
+String chatterText() {
+  currentTweet += 1;
+  if (currentTweet >= tweets.size()) {
+    currentTweet = 0;
+  }
+  Status status = tweets.get(currentTweet);
+  chatter = status.getText();
+  return chatter;
+}
+
+void getNewTweets() {
+    try {
+      Query query = new Query(searchString);
+      QueryResult result = twitter.search(query);
+      tweets = result.getTweets();
+    } catch (TwitterException te) {
+      System.out.println("Failed to search tweets: " + te.getMessage());
+      System.exit(-1);
+    } 
+}
+
+void refreshTweets() {
+  while (true) {
+    getNewTweets();
+    println("Updated Tweets"); 
+    delay(30000);
+  }
+}
