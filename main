@@ -21,10 +21,10 @@ void setup() {
   textFont(f, 13);
   
   ConfigurationBuilder cb = new ConfigurationBuilder();
-  cb.setOAuthConsumerKey("QguSeHSHiKfemwqA9WoRhsH2x");
-  cb.setOAuthConsumerSecret("E5dKI7vRvGT0CKrnaq9ID7n8T2VZb2nzcvJnzas0QuIEPZLNDy");
-  cb.setOAuthAccessToken("356138802-I3dZRjkGiS1Uz14Smi8cXetv6OhTWeN6kFrCfTGX");
-  cb.setOAuthAccessTokenSecret("TX7vvcBbwpjPJeGIaf7otxExCNyzukS6MphytdTAho85n");
+  cb.setOAuthConsumerKey("");
+  cb.setOAuthConsumerSecret("");
+  cb.setOAuthAccessToken("");
+  cb.setOAuthAccessTokenSecret("");
   
   TwitterFactory tf = new TwitterFactory(cb.build());
   
